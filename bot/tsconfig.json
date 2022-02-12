@@ -24,6 +24,11 @@
     "strict": true,
     "resolveJsonModule": true
   },
+  "references": [
+    {
+      "path": "../db"
+    }
+  ],
   "include": [
     "internals.d.ts",
     "**/*"
