@@ -18,6 +18,12 @@
     },
     "clean": {
       "cache": false
+    },
+    "migrate": {
+      "dependsOn": [
+        "^migrate"
+      ],
+      "cache": false
     }
   }
 }
