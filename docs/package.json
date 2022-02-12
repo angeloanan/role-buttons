@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "docs",
+  "version": "1.0.0",
+
+  "dependencies": {},
+  "scripts": {
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  }
+}

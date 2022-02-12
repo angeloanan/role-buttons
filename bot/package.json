@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "name": "bot",
+  "version": "1.0.0",
+  "dependencies": {
+    "@discordjs/rest": "^0.3.0",
+    "@types/common-tags": "^1.8.1",
+    "common-tags": "^1.8.2",
+    "db": "1.0.0",
+    "discord.js": "dev",
+    "dotenv": "^16.0.0",
+    "pino": "^7.6.5"
+  },
+  "devDependencies": {
+    "discord-api-types": "^0.27.0",
+    "nodemon": "^2.0.15"
+  },
+  "scripts": {
+    "dev": "nodemon --exec ts-node index.ts --delay 5",
+    "build": "tsc",
+    "start": "dist/index.js",
+    "lint": "tsc --noEmit && TIMING=1 eslint . --fix",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  }
+}

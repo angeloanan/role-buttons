@@ -1,0 +1,34 @@
+datasource db {
+  url      = env("DATABASE_URL")
+  provider = "postgresql"
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["dataProxy"]
+}
+
+model Guild {
+  id String @id @unique
+
+  roleGroups RoleGroups[]
+}
+
+model RoleGroups {
+  groupId    Int    @id @unique @default(autoincrement())
+  groupName  String
+  groupLabel String @default("Get your roles by clicking the buttons here!")
+
+  guildId String
+  guild   Guild  @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  buttons RoleButton[]
+}
+
+model RoleButton {
+  roleId      String @id @unique
+  buttonLabel String
+
+  roleGroupId Int
+  roleGroup   RoleGroups @relation(fields: [roleGroupId], references: [groupId], onDelete: Cascade)
+}
