@@ -2,42 +2,39 @@
 FROM node:alpine AS base
 WORKDIR /app
 RUN apk update && apk add git
-
-# Install turborepo
-RUN npm i -g turbo
+ENV YARN_CACHE_FOLDER=.yarn-cache
+RUN yarn global add turbo
 
 # Prune
 FROM base as pruner
-COPY .git ./.git
 COPY . .
 RUN turbo prune --scope=bot --docker
 
-FROM pruner as installer
+FROM base AS dev-deps
 COPY --from=pruner /app/out/json/ .
 COPY --from=pruner /app/out/yarn.lock ./yarn.lock
+RUN yarn install --frozen-lockfile
 # Install build-essentials - https://github.com/mhart/alpine-node/issues/27#issuecomment-390187978
 # RUN apk add --no-cache --virtual .build-deps alpine-sdk python3 \
 #   && yarn install
 RUN yarn install
 
+FROM base AS prod-deps
+COPY --from=pruner /app/out/json/ .
+COPY --from=pruner /app/out/yarn.lock ./yarn.lock
+COPY --from=dev-deps /app/${YARN_CACHE_FOLDER} /${YARN_CACHE_FOLDER} 
+RUN yarn install --frozen-lockfile --production --prefer-offline --ignore-scripts
+RUN rm -rf /app/${YARN_CACHE_FOLDER}
+
 # Copy source code of pruned subworkspace and build
-FROM installer as builder
-COPY .git ./.git
+FROM base as builder
+COPY --from=dev-deps /app/ .
 COPY --from=pruner /app/out/full/ .
-COPY --from=installer /app/ .
-RUN turbo run build --scope=bot
+RUN yarn turbo run build --scope=bot --include-dependencies --no-deps
+RUN find . -name node_modules | xargs rm -rf
 
 # App stage
 FROM base as runner
-COPY package*.json ./
-ENV NODE_ENV=production
-# Install build-essentials - https://github.com/mhart/alpine-node/issues/27#issuecomment-390187978
-# RUN apk add --no-cache --virtual .build-deps alpine-sdk python3 \
-#   && yarn install --production \
-#   && apk del .build-deps
-RUN yarn install --production
-
-COPY --from=builder /app/bot/dist ./
-RUN ls -lah
-RUN cat package.json
-CMD ["yarn", "start"]
+COPY --from=prod-deps /app/ .
+COPY --from=builder /app/ .
+CMD yarn turbo run start --scope=bot --include-dependencies --no-deps
