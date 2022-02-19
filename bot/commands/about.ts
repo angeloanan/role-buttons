@@ -1,6 +1,7 @@
 import { stripIndent } from 'common-tags'
 import { prisma } from 'db'
 import os from 'node:os'
+import { memoryUsage } from 'node:process'
 
 import { client } from '../index.js'
 import type { BotCommandHandler } from '../internals'
@@ -59,7 +60,7 @@ const handler: BotCommandHandler = async interaction => {
             value: stripIndent`
               • Running ${os.cpus()[0].model} with ${os.cpus().length} threads
               • ${Math.round(os.totalmem() / 1024 / 1024 / 1024)} GB of RAM (Using ${(
-              (os.totalmem() - os.freemem()) /
+              memoryUsage.rss() /
               1024 /
               1024
             ).toPrecision(2)} MB)
