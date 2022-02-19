@@ -26,7 +26,9 @@ model RoleGroups {
 }
 
 model RoleButton {
-  roleId      String @id @unique
+  // Technically unneeded (roleId as PK) but for sorting purposes
+  id          Int    @id @default(autoincrement())
+  roleId      String @unique
   buttonEmoji String @default("")
   buttonLabel String
 
