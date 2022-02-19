@@ -1,13 +1,20 @@
 import { stripIndent } from 'common-tags'
 import { prisma } from 'db'
-import { Message } from 'discord.js'
+import type { Message } from 'discord.js'
 
 import { presetData } from '../../constants/groupPresets.js'
+import { isRoleManager } from '../../guards/permission.js'
 import type { ButtonInteractionHandler } from '../../internals'
 
 const handler: ButtonInteractionHandler = async interaction => {
   if (!interaction.inGuild() || interaction.guild == null)
     return void (interaction.message as Message).edit('Command must be run in a server')
+  if (!isRoleManager(interaction)) {
+    return interaction.reply({
+      content: 'You do not have permission to do this!',
+      ephemeral: true
+    })
+  }
 
   const buttonId = interaction.customId
   const buttonArgs = buttonId.split(':')
