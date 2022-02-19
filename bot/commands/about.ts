@@ -39,6 +39,14 @@ const handler: BotCommandHandler = async interaction => {
             `
           },
           {
+            name: 'Presets',
+            value: stripIndent`
+              To make it easy to setup roles, we have included a few preset role groups.
+              You can apply these presets by using **\`/preset\`**
+            `
+          },
+
+          {
             name: '📊 Live Statistics',
             value: stripIndent`
               • Serving ${memberCount} users in ${guildCount} servers
