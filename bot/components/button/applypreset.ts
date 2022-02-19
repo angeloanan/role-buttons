@@ -71,7 +71,8 @@ const handler: ButtonInteractionHandler = async interaction => {
             data: selectedPreset.roles.map(r => ({
               buttonLabel: r.name,
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              roleId: createdRoles.find(cr => cr.name === r.name)!.id
+              roleId: createdRoles.find(cr => cr.name === r.name)!.id,
+              buttonEmoji: r.buttonEmoji
             }))
           }
         }
