@@ -34,7 +34,7 @@ const handler: BotCommandHandler = async interaction => {
             name: 'Using the bot',
             value: stripIndent`
               **1.** Create a role group with **\`/creategroup\`**
-              **2.** Add roles to the role group with **\`addrole\`**
+              **2.** Add roles to the role group with **\`/addrole\`**
               **3.** Display the role group using **\`/display\`**
             `
           },
