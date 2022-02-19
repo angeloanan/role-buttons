@@ -56,7 +56,7 @@ const handler: BotCommandHandler = async interaction => {
     )
 
     await interaction.channel?.send({
-      content: 'Get your role here!',
+      content: roleGroup.groupLabel,
       components: [actionRow]
     })
 
