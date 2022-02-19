@@ -3,6 +3,7 @@ FROM node:alpine AS base
 WORKDIR /app
 RUN apk update && apk add git
 ENV YARN_CACHE_FOLDER=.yarn-cache
+ENV PRISMA_CLIENT_ENGINE_TYPE=dataproxy
 RUN yarn global add turbo
 
 # Prune
