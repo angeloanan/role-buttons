@@ -61,9 +61,8 @@ const handler: BotCommandHandler = async interaction => {
               • ${Math.round(os.totalmem() / 1024 / 1024 / 1024)} GB of RAM (Using ${(
               (os.totalmem() - os.freemem()) /
               1024 /
-              1024 /
               1024
-            ).toPrecision(2)} GB)
+            ).toPrecision(2)} MB)
             `,
             inline: true
           },
