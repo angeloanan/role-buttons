@@ -2,7 +2,7 @@ import { stripIndent } from 'common-tags'
 import { prisma } from 'db'
 import { Message } from 'discord.js'
 
-import { presetData } from '../../constants/groupPresets'
+import { presetData } from '../../constants/groupPresets.js'
 import type { ButtonInteractionHandler } from '../../internals'
 
 const handler: ButtonInteractionHandler = async interaction => {

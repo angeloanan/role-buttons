@@ -1,6 +1,6 @@
 import { prisma } from 'db'
 
-import { isRoleManager } from '../guards/permission'
+import { isRoleManager } from '../guards/permission.js'
 import { BotCommandHandler } from '../internals'
 
 const handler: BotCommandHandler = async interaction => {

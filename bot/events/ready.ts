@@ -3,7 +3,7 @@
 // ^ Remove this later!
 import { OAuth2Scopes } from 'discord.js'
 
-import { client } from '../index'
+import { client } from '../index.js'
 
 const handler = () => {
   console.log(`Logged in as ${client?.user?.tag as string}!`)

@@ -5,9 +5,11 @@ import type { ClientEvents } from 'discord.js'
 import { Client } from 'discord.js'
 import fs from 'node:fs'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import type { BotEventHandler } from './internals'
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const client = new Client({ intents: ['Guilds'] })
 
 // Entry point to mount everything

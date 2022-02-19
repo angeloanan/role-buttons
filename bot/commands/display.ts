@@ -1,7 +1,7 @@
 import { prisma } from 'db'
 import { ActionRow, ButtonComponent, ButtonStyle } from 'discord.js'
 
-import { isRoleManager } from '../guards/permission'
+import { isRoleManager } from '../guards/permission.js'
 import { BotCommandAutocompleteHandler, BotCommandHandler } from '../internals'
 
 export const autocomplete: BotCommandAutocompleteHandler = async interaction => {

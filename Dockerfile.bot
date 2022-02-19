@@ -37,4 +37,5 @@ RUN find . -name node_modules | xargs rm -rf
 FROM base as runner
 COPY --from=prod-deps /app/ .
 COPY --from=builder /app/ .
-CMD yarn turbo run start --scope=bot --include-dependencies --no-deps
+# CMD yarn start
+CMD yarn start --scope=bot --include-dependencies --no-deps

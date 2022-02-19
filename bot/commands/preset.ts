@@ -1,7 +1,7 @@
 import { ActionRow, ButtonComponent, ButtonStyle } from 'discord.js'
 
-import { presetData } from '../constants/groupPresets'
-import { isRoleManager } from '../guards/permission'
+import { presetData } from '../constants/groupPresets.js'
+import { isRoleManager } from '../guards/permission.js'
 import type { BotCommandAutocompleteHandler, BotCommandHandler } from '../internals'
 
 const presetAutocomplete = presetData.map(p => ({ name: p.name, value: p.name }))

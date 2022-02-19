@@ -1,7 +1,7 @@
 import { prisma } from 'db'
 
-import { client } from '..'
-import { isRoleManager } from '../guards/permission'
+import { isRoleManager } from '../guards/permission.js'
+import { client } from '../index.js'
 import { BotCommandAutocompleteHandler, BotCommandHandler } from '../internals'
 
 export const autocomplete: BotCommandAutocompleteHandler = async interaction => {

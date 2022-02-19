@@ -2,6 +2,7 @@
   "private": true,
   "name": "bot",
   "version": "1.0.0",
+  "type": "module",
   "dependencies": {
     "@discordjs/rest": "^0.3.0",
     "@types/common-tags": "^1.8.1",
