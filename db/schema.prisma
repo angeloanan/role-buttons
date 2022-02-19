@@ -27,6 +27,7 @@ model RoleGroups {
 
 model RoleButton {
   roleId      String @id @unique
+  buttonEmoji String @default("")
   buttonLabel String
 
   roleGroupId Int
