@@ -23,7 +23,10 @@ FROM base AS prod-deps
 COPY --from=pruner /app/out/json/ .
 COPY --from=pruner /app/out/yarn.lock ./yarn.lock
 COPY --from=dev-deps /app/${YARN_CACHE_FOLDER} /${YARN_CACHE_FOLDER} 
-RUN yarn install --frozen-lockfile --production --prefer-offline --ignore-scripts
+RUN yarn install --frozen-lockfile --production --prefer-offline
+# TODO: Think of a better way of separating prisma client
+COPY --from=pruner /app/db/schema.prisma ./db/schema.prisma
+RUN yarn prisma generate
 RUN rm -rf /app/${YARN_CACHE_FOLDER}
 
 # Copy source code of pruned subworkspace and build
