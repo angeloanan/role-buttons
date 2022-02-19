@@ -1,8 +1,9 @@
 import { prisma } from 'db'
-import { ActionRow, ButtonComponent, ButtonStyle } from 'discord.js'
+import { ActionRow, ButtonComponent, ButtonStyle, Util } from 'discord.js'
+import type { APIMessageComponentEmoji } from 'discord-api-types'
 
 import { isRoleManager } from '../guards/permission.js'
-import { BotCommandAutocompleteHandler, BotCommandHandler } from '../internals'
+import type { BotCommandAutocompleteHandler, BotCommandHandler } from '../internals'
 
 export const autocomplete: BotCommandAutocompleteHandler = async interaction => {
   if (!interaction.inGuild()) return interaction.respond([])
@@ -32,7 +33,16 @@ const handler: BotCommandHandler = async interaction => {
         groupId
       },
       include: {
-        buttons: true
+        buttons: {
+          select: {
+            roleId: true,
+            buttonLabel: true,
+            buttonEmoji: true
+          },
+          orderBy: {
+            id: 'asc'
+          }
+        }
       }
     })
 
@@ -40,20 +50,24 @@ const handler: BotCommandHandler = async interaction => {
       return void (await interaction.editReply({
         content: `Group \`${roleGroup?.groupName ?? groupId}\` not found!`
       }))
-    if (roleGroup.buttons.length === 0)
+    if (roleGroup.buttons?.length === 0)
       return void (await interaction.editReply({
         content: `Group \`${roleGroup.groupName}\` has no roles configured. Add them with \`/addrole\`!`
       }))
 
     const actionRow = new ActionRow()
-    roleGroup?.buttons.map(b =>
-      actionRow.addComponents(
-        new ButtonComponent()
-          .setCustomId(`selfrole:${b.roleId}`)
-          .setLabel(b.buttonLabel)
-          .setStyle(ButtonStyle.Secondary)
-      )
-    )
+    roleGroup.buttons.forEach(b => {
+      const button = new ButtonComponent()
+        .setCustomId(`selfrole:${b.roleId}`)
+        .setLabel(b.buttonLabel)
+        .setStyle(ButtonStyle.Secondary)
+
+      if (b.buttonEmoji != '') {
+        button.setEmoji(Util.resolvePartialEmoji(b.buttonEmoji) as APIMessageComponentEmoji)
+      }
+
+      actionRow.addComponents(button)
+    })
 
     await interaction.channel?.send({
       content: roleGroup.groupLabel,
@@ -62,6 +76,7 @@ const handler: BotCommandHandler = async interaction => {
 
     await interaction.editReply({ content: `Displayed group \`${roleGroup.groupName}\`!` })
   } catch (e) {
+    console.error(e)
     await interaction.editReply({
       content: `Something went wrong:\`\`\`${e as string}\`\`\``
     })
