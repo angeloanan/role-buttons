@@ -26,8 +26,11 @@
   },
   "include": [
     "internals.d.ts",
-    "**/*"
+    "**/*",
   ],
+  "references": [{
+    "path": "../db"
+  }],
   "exclude": [
     "node_modules",
     "dist",

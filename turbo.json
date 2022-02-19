@@ -19,6 +19,9 @@
     "clean": {
       "cache": false
     },
+    "start": {
+      "cache": false
+    },
     "migrate": {
       "dependsOn": [
         "^migrate"
