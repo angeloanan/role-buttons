@@ -1,3 +1,4 @@
+import { stripIndent } from 'common-tags'
 import { prisma } from 'db'
 import { ActionRow, ButtonComponent, ButtonStyle } from 'discord.js'
 
@@ -29,40 +30,44 @@ const handler: BotCommandHandler = async interaction => {
     const groupId = interaction.options.get('group_id', true).value as number
     await interaction.editReply('Command not implemented yet')
 
-    //   const roleGroup = await prisma.roleGroups.findUnique({
-    //     where: {
-    //       groupId
-    //     },
-    //     include: {
-    //       buttons: true
-    //     }
-    //   })
+    const roleGroup = await prisma.roleGroups.findUnique({
+      where: {
+        groupId
+      },
+      select: {
+        buttons: {
+          select: {
+            roleId: true
+          }
+        },
+        groupName: true,
+        guildId: true
+      }
+    })
 
-    //   if (roleGroup == null || roleGroup?.guildId !== interaction.guildId)
-    //     return void (await interaction.editReply({
-    //       content: `Group \`${roleGroup?.groupName ?? groupId}\` not found!`
-    //     }))
-    //   if (roleGroup.buttons.length === 0)
-    //     return void (await interaction.editReply({
-    //       content: `Group \`${roleGroup.groupName}\` has no roles configured. Add them with \`/addrole\`!`
-    //     }))
+    if (roleGroup == null || roleGroup?.guildId !== interaction.guildId)
+      return void (await interaction.editReply({
+        content: `Group \`${roleGroup?.groupName ?? groupId}\` not found!`
+      }))
 
-    //   const actionRow = new ActionRow()
-    //   roleGroup?.buttons.map(b =>
-    //     actionRow.addComponents(
-    //       new ButtonComponent()
-    //         .setCustomId(`selfrole:${b.roleId}`)
-    //         .setLabel(b.buttonLabel)
-    //         .setStyle(ButtonStyle.Secondary)
-    //     )
-    //   )
+    const actionRow = new ActionRow()
+    actionRow.addComponents(
+      new ButtonComponent()
+        .setCustomId(`deletegroup:${groupId}`)
+        .setLabel('Delete')
+        .setStyle(ButtonStyle.Danger),
+      new ButtonComponent()
+        .setCustomId(`cancel:${groupId}`)
+        .setLabel('Cancel')
+        .setStyle(ButtonStyle.Secondary)
+    )
 
-    //   await interaction.channel?.send({
-    //     content: 'Get your role here!',
-    //     components: [actionRow]
-    //   })
-
-    //   await interaction.editReply({ content: `Displayed group \`${roleGroup.groupName}\`!` })
+    await interaction.editReply({
+      content: stripIndent`
+        Are you sure that you want to delete the role group \`${roleGroup.groupName}\`?
+      `,
+      components: [actionRow]
+    })
   } catch (e) {
     await interaction.editReply({
       content: `Something went wrong:\`\`\`${e as string}\`\`\``
