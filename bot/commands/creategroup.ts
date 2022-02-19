@@ -1,3 +1,4 @@
+import { stripIndent } from 'common-tags'
 import { prisma } from 'db'
 
 import { isRoleManager } from '../guards/permission.js'
@@ -41,10 +42,15 @@ const handler: BotCommandHandler = async interaction => {
       }
     })
 
-    await interaction.editReply({ content: `Created group \`${groupName}\`!` })
+    await interaction.editReply({
+      content: stripIndent`
+        > Group **\`${groupName}\`** has been created
+        You can now add roles to the group by using \`/addrole\`!
+      `
+    })
   } catch (e) {
     await interaction.editReply({
-      content: `Something went wrong:\`\`\`${e as string}\`\`\``
+      content: `> Something went wrong:\`\`\`${e as string}\`\`\``
     })
   }
 }
