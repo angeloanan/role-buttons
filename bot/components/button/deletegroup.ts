@@ -1,10 +1,17 @@
 import { prisma } from 'db'
-import type { DiscordAPIError } from 'discord.js'
 
+import { isRoleManager } from '../../guards/permission.js'
 import type { ButtonInteractionHandler } from '../../internals'
 
 // Format: deletegroup:<GROUP_ID>
 const handler: ButtonInteractionHandler = async interaction => {
+  if (!isRoleManager(interaction)) {
+    return interaction.reply({
+      content: 'You do not have permission to do this!',
+      ephemeral: true
+    })
+  }
+
   const buttonId = interaction.customId
   const buttonArgs = buttonId.split(':')
   const groupId = parseInt(buttonArgs[1])
@@ -22,14 +29,6 @@ const handler: ButtonInteractionHandler = async interaction => {
       content: 'Group deleted! You might still want to delete individual role group displays.'
     })
   } catch (e) {
-    if ((e as DiscordAPIError).message === 'Unknown Role') {
-      await interaction.reply({
-        content: `This role was deleted. Please notify the server administrator that this role were deleted!`,
-        ephemeral: true
-      })
-      return
-    }
-
     await interaction.reply({
       content: `An internal error has occurred:\`\`\`${e as string}\`\`\``,
       ephemeral: true
