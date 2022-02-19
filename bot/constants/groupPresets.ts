@@ -21,19 +21,23 @@ export const presetData: ReadonlyArray<RoleGroupPreset> = [
 
     roles: [
       {
-        name: 'he / him'
+        name: 'he / him',
+        buttonEmoji: '<:hehim:944722193152094258>'
       },
       {
-        name: 'they / them'
+        name: 'they / them',
+        buttonEmoji: '<:theythem:944722215730044940>'
       },
       {
-        name: 'she / her'
+        name: 'she / her',
+        buttonEmoji: '<:sheher:944722169945030726>'
       },
       {
         name: 'Ask me'
       }
     ]
   },
+
   {
     id: 'pingable',
     name: 'Pingable roles (Announcements, Giveaway, etc)',
@@ -44,6 +48,7 @@ export const presetData: ReadonlyArray<RoleGroupPreset> = [
       }
     ]
   },
+
   {
     id: 'colors',
     name: 'Color Roles',
