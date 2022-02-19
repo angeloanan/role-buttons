@@ -29,6 +29,10 @@ const handler: BotCommandHandler = async interaction => {
     await prisma.roleGroups.create({
       data: {
         groupName,
+        groupLabel: stripIndent`
+          __**${groupName}**__
+          Get your roles here!
+        `,
         guild: {
           connectOrCreate: {
             create: {
