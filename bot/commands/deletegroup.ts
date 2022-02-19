@@ -57,7 +57,7 @@ const handler: BotCommandHandler = async interaction => {
         .setLabel('Delete')
         .setStyle(ButtonStyle.Danger),
       new ButtonComponent()
-        .setCustomId(`cancel:${groupId}`)
+        .setCustomId(`canceldeletegroup:${groupId}`)
         .setLabel('Cancel')
         .setStyle(ButtonStyle.Secondary)
     )
