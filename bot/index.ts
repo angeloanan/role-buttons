@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-import { prisma } from 'db'
+import { influx, prisma } from 'db'
 import type { ClientEvents } from 'discord.js'
 import { Client } from 'discord.js'
 import fs from 'node:fs'
@@ -20,6 +20,10 @@ client.once('debug', async () => {
     const eventHandler = (await import(`./events/${eventName as string}`)) as BotEventHandler
     client.on(path.parse(eventName as string).name as keyof ClientEvents, eventHandler.default)
   }
+})
+
+client.on('raw', () => {
+  influx.gatewayEventsLog()
 })
 
 // Handle graceful exit
