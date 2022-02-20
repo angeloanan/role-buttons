@@ -108,5 +108,10 @@ export const influx = {
   roleGroupLog,
   displayLog,
 
-  presetLog
+  presetLog,
+
+  RoleAssignMode,
+  RoleGroupMode,
+  DisplayMode,
+  PresetMode
 }
