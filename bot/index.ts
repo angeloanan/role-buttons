@@ -33,10 +33,6 @@ client.once('debug', async () => {
   }
 })
 
-client.on('raw', () => {
-  influx.gatewayEventsLog()
-})
-
 // Handle graceful exit
 process.on('SIGUSR2', () => {
   console.log('[nodemon] restarting process, shutting down gracefully')
