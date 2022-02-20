@@ -1,8 +1,10 @@
+/* eslint-disable no-var */
+import type { InfluxDB } from '@influxdata/influxdb-client'
 import { PrismaClient } from '@prisma/client'
 
 declare global {
-  // eslint-disable-next-line no-var
   var prisma: PrismaClient | undefined
+  var influx: InfluxDB | undefined
 }
 
 export const prisma =
@@ -12,3 +14,5 @@ export const prisma =
   })
 
 if (process.env.NODE_ENV !== 'production') global.prisma = prisma
+
+export * from './influxdb.js'
