@@ -21,6 +21,14 @@ process.on('exit', () => {
 
 // -----------------------------------------------------------------------------
 
+const gatewayPingLog = (pingMs: number, shardNo = 1) => {
+  writeApi.writePoint(
+    new Point('gateway_ping').tag('shard', shardNo.toString()).uintField('latency', pingMs)
+  )
+}
+
+// -----------------------------------------------------------------------------
+
 enum RoleAssignMode {
   Add = 'add',
   Remove = 'remove'
@@ -82,6 +90,8 @@ const presetLog = (mode: PresetMode, { serverId }: presetProps) => {
 
 export const influx = {
   _writeApi: writeApi,
+
+  gatewayPingLog,
 
   roleAssignLog,
   roleGroupLog,
