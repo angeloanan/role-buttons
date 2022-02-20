@@ -1,3 +1,4 @@
+import { influx } from 'db'
 import type { DiscordAPIError, GuildMemberRoleManager } from 'discord.js'
 
 import type { ButtonInteractionHandler } from '../../internals'
@@ -15,11 +16,19 @@ const handler: ButtonInteractionHandler = async interaction => {
         content: `You no longer have <@&${roleId}>!`,
         ephemeral: true
       })
+
+      influx.roleAssignLog(influx.RoleAssignMode.Remove, {
+        serverId: interaction.guildId as string
+      })
     } else {
       await memberRoles.add(roleId)
       await interaction.reply({
         content: `You now have <@&${roleId}>!`,
         ephemeral: true
+      })
+
+      influx.roleAssignLog(influx.RoleAssignMode.Add, {
+        serverId: interaction.guildId as string
       })
     }
   } catch (e) {
