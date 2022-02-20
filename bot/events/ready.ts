@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // ^ Remove this later!
 import { influx } from 'db'
-import { OAuth2Scopes } from 'discord.js'
+import { ActivityType, OAuth2Scopes } from 'discord.js'
 
 import { client } from '../index.js'
 
@@ -14,6 +14,12 @@ const handler = () => {
       permissions: ['Administrator', 'SendMessages', 'ManageRoles']
     })
   )
+
+  client.user?.setStatus('online')
+  client.user?.setActivity({
+    name: 'buttons that are pressed!',
+    type: ActivityType.Listening
+  })
 
   setInterval(() => {
     influx.gatewayPingLog(client.ws.ping)

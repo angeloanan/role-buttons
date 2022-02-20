@@ -2,7 +2,7 @@ import 'dotenv/config'
 
 import { influx, prisma } from 'db'
 import type { ClientEvents } from 'discord.js'
-import { Client } from 'discord.js'
+import { ActivityType, Client } from 'discord.js'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -10,7 +10,18 @@ import { fileURLToPath } from 'node:url'
 import type { BotEventHandler } from './internals'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const client = new Client({ intents: ['Guilds'] })
+const client = new Client({
+  intents: ['Guilds'],
+  presence: {
+    activities: [
+      {
+        type: ActivityType.Listening,
+        name: 'for ready signal...'
+      }
+    ],
+    status: 'idle'
+  }
+})
 
 // Entry point to mount everything
 // TODO: Figure out a better way to do this
