@@ -37,6 +37,11 @@ process.on('SIGINT', () => {
   client.destroy()
 })
 
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down gracefully')
+  client.destroy()
+})
+
 prisma.$connect().catch(console.error)
 client.login(process.env.DISCORD_BOT_TOKEN).catch(console.error)
 
