@@ -1,4 +1,4 @@
-import { prisma } from 'db'
+import { influx, prisma } from 'db'
 import { ActionRow, ButtonComponent, ButtonStyle, Util } from 'discord.js'
 import type { APIMessageComponentEmoji } from 'discord-api-types'
 
@@ -75,6 +75,8 @@ const handler: BotCommandHandler = async interaction => {
     })
 
     await interaction.editReply({ content: `Displayed group \`${roleGroup.groupName}\`!` })
+
+    influx.displayLog(influx.DisplayMode.Add, { serverId: interaction.guildId })
   } catch (e) {
     console.error(e)
     await interaction.editReply({
