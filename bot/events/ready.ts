@@ -17,8 +17,8 @@ const handler = () => {
 
   client.user?.setStatus('online')
   client.user?.setActivity({
-    name: 'buttons that are pressed!',
-    type: ActivityType.Listening
+    name: 'for buttons • /about',
+    type: ActivityType.Watching
   })
 
   setInterval(() => {
