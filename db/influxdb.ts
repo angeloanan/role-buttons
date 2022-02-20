@@ -8,7 +8,8 @@ declare global {
 const influxdb =
   global.influx ||
   new InfluxDB({
-    url: process.env.INFLUX_URL
+    url: process.env.INFLUX_URL,
+    token: process.env.INFLUX_TOKEN
   })
 
 if (process.env.NODE_ENV !== 'production') global.influx = influxdb
@@ -21,10 +22,14 @@ process.on('exit', () => {
 
 // -----------------------------------------------------------------------------
 
-const gatewayPingLog = (pingMs: number, shardNo = 1) => {
+const gatewayPingLog = (pingMs: number, shardNo = -1) => {
   writeApi.writePoint(
     new Point('gateway_ping').tag('shard', shardNo.toString()).uintField('latency', pingMs)
   )
+}
+
+const gatewayEventsLog = () => {
+  writeApi.writePoint(new Point('gateway_events'))
 }
 
 const guildCountLog = (count: number) => {
@@ -96,6 +101,7 @@ export const influx = {
   _writeApi: writeApi,
 
   gatewayPingLog,
+  gatewayEventsLog,
   guildCountLog,
 
   roleAssignLog,
