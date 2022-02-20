@@ -27,6 +27,10 @@ const gatewayPingLog = (pingMs: number, shardNo = 1) => {
   )
 }
 
+const guildCountLog = (count: number) => {
+  writeApi.writePoint(new Point('guild_count').uintField('count', count))
+}
+
 // -----------------------------------------------------------------------------
 
 enum RoleAssignMode {
@@ -92,6 +96,7 @@ export const influx = {
   _writeApi: writeApi,
 
   gatewayPingLog,
+  guildCountLog,
 
   roleAssignLog,
   roleGroupLog,
