@@ -1,4 +1,4 @@
-import { prisma } from 'db'
+import { influx, prisma } from 'db'
 
 import { isRoleManager } from '../../guards/permission.js'
 import type { ButtonInteractionHandler } from '../../internals'
@@ -28,6 +28,8 @@ const handler: ButtonInteractionHandler = async interaction => {
     await interaction.editReply({
       content: 'Group deleted! You might still want to delete individual role group displays.'
     })
+
+    influx.roleGroupLog(influx.RoleGroupMode.Remove, { serverId: interaction.guildId as string })
   } catch (e) {
     await interaction.reply({
       content: `An internal error has occurred:\`\`\`${e as string}\`\`\``,

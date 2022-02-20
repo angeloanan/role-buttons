@@ -1,5 +1,5 @@
 import { stripIndent } from 'common-tags'
-import { prisma } from 'db'
+import { influx, prisma } from 'db'
 
 import { isRoleManager } from '../guards/permission.js'
 import { BotCommandHandler } from '../internals'
@@ -52,6 +52,8 @@ const handler: BotCommandHandler = async interaction => {
         You can now add roles to the group by using \`/addrole\`!
       `
     })
+
+    influx.roleGroupLog(influx.RoleGroupMode.Add, { serverId: interaction.guildId })
   } catch (e) {
     await interaction.editReply({
       content: `> Something went wrong:\`\`\`${e as string}\`\`\``
