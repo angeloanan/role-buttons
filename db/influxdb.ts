@@ -22,6 +22,14 @@ process.on('exit', () => {
 
 // -----------------------------------------------------------------------------
 
+const databasePingLog = (pingMs: number, shardNo = -1) => {
+  void writeApi.writePoint(
+    new Point('database_ping').tag('shard', shardNo.toString()).uintField('latency', pingMs)
+  )
+}
+
+// -----------------------------------------------------------------------------
+
 const gatewayPingLog = (pingMs: number, shardNo = -1) => {
   writeApi.writePoint(
     new Point('gateway_ping').tag('shard', shardNo.toString()).uintField('latency', pingMs)
@@ -100,6 +108,7 @@ const presetLog = (mode: PresetMode, { serverId }: presetProps) => {
 export const influx = {
   _writeApi: writeApi,
 
+  databasePingLog,
   gatewayPingLog,
   gatewayEventsLog,
   guildCountLog,
