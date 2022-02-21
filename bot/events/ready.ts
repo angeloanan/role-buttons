@@ -1,4 +1,4 @@
-import { influx } from 'db'
+import { influx, prisma } from 'db'
 import { ActivityType, OAuth2Scopes } from 'discord.js'
 
 import { client } from '../index.js'
@@ -22,6 +22,17 @@ const handler = () => {
 
   setInterval(() => {
     influx.gatewayPingLog(client.ws.ping)
+  }, 15000)
+
+  const logPrismaLatency = async () => {
+    const start = Date.now()
+    await prisma.$queryRaw`SELECT 1`
+    const end = Date.now()
+    influx.databasePingLog(end - start)
+  }
+
+  setInterval(() => {
+    void logPrismaLatency()
   }, 15000)
 }
 
