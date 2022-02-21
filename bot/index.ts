@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-import { influx, prisma } from 'db'
+import { prisma } from 'db'
 import type { ClientEvents } from 'discord.js'
 import { ActivityType, Client } from 'discord.js'
 import fs from 'node:fs'
@@ -11,7 +11,7 @@ import type { BotEventHandler } from './internals'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const client = new Client({
-  intents: ['Guilds'],
+  intents: ['Guilds', 'GuildMessages'],
   presence: {
     activities: [
       {

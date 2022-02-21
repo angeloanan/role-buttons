@@ -1,3 +1,4 @@
+import { stripIndent } from 'common-tags'
 import { prisma } from 'db'
 
 import { isRoleManager } from '../guards/permission.js'
@@ -20,9 +21,10 @@ export const autocomplete: BotCommandAutocompleteHandler = async interaction => 
 }
 
 const handler: BotCommandHandler = async interaction => {
+  if (!interaction.channel) return
   if (!isRoleManager(interaction))
     return interaction.reply({ content: 'You do not have permission to use this command' })
-  await interaction.deferReply({ ephemeral: true })
+  await interaction.deferReply()
 
   try {
     // TODO: Migrate to modals once released to djs
@@ -46,17 +48,33 @@ const handler: BotCommandHandler = async interaction => {
         content: `Group \`${roleGroup?.groupName ?? groupId}\` not found!`
       }))
 
+    await interaction.editReply({
+      content: stripIndent`
+        > You are editing group \`${roleGroup.groupName}\`...
+        Send a message that will be the role group's display message! (Formatting supported)
+      `
+    })
+
+    const contentMessage = await interaction.channel.awaitMessages({
+      filter: m => {
+        console.debug(m.author.id)
+        return m.author.id === interaction.user.id
+      },
+      time: 120_000,
+      max: 1,
+      errors: ['time']
+    })
+
     await prisma.roleGroups.update({
       where: {
         groupId
       },
       data: {
-        groupName,
-        groupLabel
+        groupLabel: contentMessage.first()?.content
       }
     })
 
-    await interaction.editReply({ content: `Edited role group \`${roleGroup.groupName}\`!` })
+    await interaction.channel.send({ content: `Edited role group \`${roleGroup.groupName}\`!` })
   } catch (e) {
     await interaction.editReply({
       content: `Something went wrong:\`\`\`${e as string}\`\`\``
