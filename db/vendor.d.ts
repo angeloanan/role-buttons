@@ -3,5 +3,6 @@ declare namespace NodeJS {
     INFLUX_URL: string
     INFLUX_ORG: string
     INFLUX_BUCKET: string
+    INFLUX_TOKEN: string
   }
 }
