@@ -70,7 +70,7 @@ const handler: BotCommandHandler = async interaction => {
           {
             name: 'ℹ Extra Info',
             value: stripIndent`
-              • **[Join the support server](https://discord.gg/VyZduSGhjk)**
+              • **[Join the support server](https://discord.gg/qDG5SmDRnr)**
               • [Use the online dashboard for easier configuration](https://rolebuttons.angelo.fyi) (Work In Progress!)
               • [Support the creator here](https://angeloanan.xyz)
             `,
