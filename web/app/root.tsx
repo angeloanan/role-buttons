@@ -2,7 +2,7 @@ import type { MetaFunction } from 'remix'
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from 'remix'
 
 export const meta: MetaFunction = () => {
-  return { title: 'New Remix App' }
+  return { title: 'Role Buttons Bot' }
 }
 
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
         <Outlet />
         <ScrollRestoration />
         <Scripts />
-        {process.env.NODE_ENV === 'development' && <LiveReload />}
+        <LiveReload />
       </body>
     </html>
   )

@@ -1,30 +1,36 @@
 {
-  "private": true,
   "name": "web",
+  "private": true,
   "description": "",
+  "version": "1.0.0",
   "license": "",
-  "version": "0.1.0",
+  "sideEffects": false,
   "scripts": {
-    "build": "remix build",
-    "dev": "remix dev",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "postinstall": "remix setup cloudflare-pages",
+    "build": "cross-env NODE_ENV=production remix build",
+    "dev:remix": "cross-env NODE_ENV=development remix watch",
+    "dev:wrangler": "cross-env NODE_ENV=development wrangler pages dev ./public",
+    "dev": "cross-env NODE_ENV=development remix build && run-p dev:*",
+    "start": "cross-env NODE_ENV=production npm run dev:wrangler"
   },
   "dependencies": {
-    "@remix-run/react": "^1.1.3",
+    "@remix-run/cloudflare-pages": "^1.2.2",
+    "@remix-run/react": "^1.2.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "remix": "^1.1.3",
-    "@remix-run/serve": "^1.1.3",
-    "@remix-run/vercel": "^1.1.3"
+    "remix": "^1.2.2"
   },
   "devDependencies": {
-    "@remix-run/dev": "^1.1.3",
+    "@cloudflare/workers-types": "^3.2.0",
+    "@remix-run/dev": "^1.2.2",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
-    "typescript": "^4.1.2"
+    "cross-env": "^7.0.3",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^4.5.5",
+    "wrangler": "beta"
   },
   "engines": {
     "node": ">=14"
-  },
-  "sideEffects": false
+  }
 }
