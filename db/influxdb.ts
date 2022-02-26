@@ -36,7 +36,7 @@ const gatewayPingLog = (pingMs: number, shardNo = -1) => {
   )
 }
 
-const gatewayEventsLog = (t: string, s: number) => {
+const gatewayEventsLog = (t = 'UNCATEGORIZED', s = 0) => {
   writeApi.writePoint(new Point('gateway_events').tag('t', t).intField('s', s))
 }
 
