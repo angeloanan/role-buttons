@@ -36,8 +36,8 @@ const gatewayPingLog = (pingMs: number, shardNo = -1) => {
   )
 }
 
-const gatewayEventsLog = () => {
-  writeApi.writePoint(new Point('gateway_events'))
+const gatewayEventsLog = (t: string, s: number) => {
+  writeApi.writePoint(new Point('gateway_events').tag('t', t).intField('s', s))
 }
 
 const guildCountLog = (count: number) => {

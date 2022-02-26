@@ -18,7 +18,14 @@ const handler = () => {
     type: ActivityType.Watching
   })
 
-  client.on('raw', () => influx.gatewayEventsLog())
+  client.on('raw', e => {
+    try {
+      influx.gatewayEventsLog(e.t, e.s)
+    } catch (e) {
+      console.error(e)
+      client.removeAllListeners('raw')
+    }
+  })
 
   setInterval(() => {
     influx.gatewayPingLog(client.ws.ping)
