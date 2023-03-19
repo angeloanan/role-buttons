@@ -55,8 +55,13 @@ const handler: BotCommandHandler = async interaction => {
         content: `Group \`${roleGroup.groupName}\` has no roles configured. Add them with \`/addrole\`!`
       }))
 
-    const actionRow = new ActionRow()
-    roleGroup.buttons.forEach(b => {
+    // Create action Rows so that it fits in 5 buttons per row
+    const actionRows: ActionRow[] = []
+    for (let i = 0; i < Math.ceil(roleGroup.buttons.length / 5); i++) {
+      actionRows.push(new ActionRow())
+    }
+
+    roleGroup.buttons.forEach((b, index) => {
       const button = new ButtonComponent()
         .setCustomId(`selfrole:${b.roleId}`)
         .setLabel(b.buttonLabel)
@@ -66,12 +71,12 @@ const handler: BotCommandHandler = async interaction => {
         button.setEmoji(Util.resolvePartialEmoji(b.buttonEmoji) as APIMessageComponentEmoji)
       }
 
-      actionRow.addComponents(button)
+      actionRows[Math.floor(index / 5)].addComponents(button)
     })
 
     await interaction.channel?.send({
       content: roleGroup.groupLabel,
-      components: [actionRow]
+      components: actionRows
     })
 
     await interaction.editReply({ content: `Displayed group \`${roleGroup.groupName}\`!` })
