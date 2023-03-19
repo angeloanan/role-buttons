@@ -3,7 +3,8 @@ FROM node:alpine AS base
 WORKDIR /app
 RUN apk update && apk add git
 ENV YARN_CACHE_FOLDER=.yarn-cache
-RUN yarn global add turbo
+# HOTFIX: Lock turbo on a specific version because I CBA to upgrade it right now
+RUN yarn global add turbo@1.1.2
 
 # Prune
 FROM base as pruner
