@@ -1,6 +1,10 @@
 import { stripIndent } from 'common-tags'
 import { prisma } from 'db'
-import { ActionRow, ActionRowBuilder, ButtonBuilder, ButtonComponent, ButtonStyle } from 'discord.js'
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle
+} from 'discord.js'
 
 import { isRoleManager } from '../guards/permission.js'
 import { BotCommandAutocompleteHandler, BotCommandHandler } from '../internals'
@@ -47,7 +51,7 @@ const handler: BotCommandHandler = async interaction => {
 
     if (roleGroup == null || roleGroup?.guildId !== interaction.guildId)
       return void (await interaction.editReply({
-        content: `Group \`${roleGroup?.groupName ?? groupId}\` not found!`
+        content: `Group \`${groupId}\` not found!`
       }))
 
     const actionRow = new ActionRowBuilder<ButtonBuilder>()

@@ -45,7 +45,7 @@ const handler: BotCommandHandler = async interaction => {
 
     if (roleGroup == null || roleGroup?.guildId !== interaction.guildId)
       return void (await interaction.editReply({
-        content: `Group \`${roleGroup?.groupName ?? groupId}\` not found!`
+        content: `Group \`${groupId}\` not found!`
       }))
 
     await interaction.editReply({
