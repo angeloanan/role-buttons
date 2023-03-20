@@ -57,7 +57,7 @@ const handler: BotCommandHandler = async interaction => {
               .setLabel('Group name')
               .setPlaceholder('My Fancy Roles')
               .setValue(roleGroup.groupName)
-              .setStyle(TextInputStyle.Paragraph)
+              .setStyle(TextInputStyle.Short)
               .setMinLength(2)
               .setMaxLength(72)
               .setRequired(true)
