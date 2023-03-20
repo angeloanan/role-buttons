@@ -3,8 +3,7 @@ FROM node:16 AS base
 WORKDIR /app
 RUN apt update && apt upgrade -y && apt install -y git
 ENV YARN_CACHE_FOLDER=.yarn-cache
-# HOTFIX: Lock turbo on a specific version because I CBA to upgrade it right now
-RUN yarn global add turbo@1.1.2
+RUN yarn global add turbo
 
 # Prune
 FROM base as pruner
