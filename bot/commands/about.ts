@@ -1,7 +1,8 @@
-import { stripIndent } from 'common-tags'
-import { prisma } from 'db'
 import os from 'node:os'
 import { memoryUsage } from 'node:process'
+
+import { stripIndent } from 'common-tags'
+import { prisma } from 'db'
 
 import { client } from '../index.js'
 import type { BotCommandHandler } from '../internals'

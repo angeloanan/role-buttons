@@ -3,16 +3,19 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "tsconfigRootDir": "__dirname",
-    "project": ["./*/tsconfig.json"]
+    "project": [
+      "./*/tsconfig.json"
+    ]
   },
   "plugins": [
     "simple-import-sort",
-    "prettier",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "prettier"
   ],
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
   ],
   "rules": {
     "prettier/prettier": "error",
