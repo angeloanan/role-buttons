@@ -47,8 +47,9 @@ const handler: BotCommandHandler = async interaction => {
 
     if (roleGroup == null || roleGroup?.guildId !== interaction.guildId)
       return void (await interaction.editReply({
-        content: `Group \`${roleGroup?.groupName ?? groupId}\` not found!`
+        content: `Group \`${groupId}\` not found!`
       }))
+
     if (roleGroup.buttons?.length === 0)
       return void (await interaction.editReply({
         content: `Group \`${roleGroup.groupName}\` has no roles configured. Add them with \`/addrole\`!`
