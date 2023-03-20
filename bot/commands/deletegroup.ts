@@ -1,6 +1,6 @@
 import { stripIndent } from 'common-tags'
 import { prisma } from 'db'
-import { ActionRow, ButtonComponent, ButtonStyle } from 'discord.js'
+import { ActionRow, ActionRowBuilder, ButtonBuilder, ButtonComponent, ButtonStyle } from 'discord.js'
 
 import { isRoleManager } from '../guards/permission.js'
 import { BotCommandAutocompleteHandler, BotCommandHandler } from '../internals'
@@ -50,13 +50,13 @@ const handler: BotCommandHandler = async interaction => {
         content: `Group \`${roleGroup?.groupName ?? groupId}\` not found!`
       }))
 
-    const actionRow = new ActionRow()
+    const actionRow = new ActionRowBuilder<ButtonBuilder>()
     actionRow.addComponents(
-      new ButtonComponent()
+      new ButtonBuilder()
         .setCustomId(`deletegroup:${groupId}`)
         .setLabel('Delete')
         .setStyle(ButtonStyle.Danger),
-      new ButtonComponent()
+      new ButtonBuilder()
         .setCustomId(`canceldeletegroup:${groupId}`)
         .setLabel('Cancel')
         .setStyle(ButtonStyle.Secondary)

@@ -16,7 +16,7 @@ const handler: BotCommandHandler = async interaction => {
     (await client.shard?.fetchClientValues('users.cache.size')) ?? client.users.cache.size
 
   const roleGroupsCount = await prisma.roleGroups.count()
-  const roleButtonsCount = await prisma.roleGroups.count()
+  const roleButtonsCount = await prisma.roleButton.count()
 
   await interaction.editReply({
     content: '\u200B',
@@ -60,10 +60,10 @@ const handler: BotCommandHandler = async interaction => {
             value: stripIndent`
               • Running ${os.cpus()[0].model} with ${os.cpus().length} threads
               • ${Math.round(os.totalmem() / 1024 / 1024 / 1024)} GB of RAM (Using ${(
-              memoryUsage.rss() /
-              1024 /
-              1024
-            ).toPrecision(2)} MB)
+                memoryUsage.rss() /
+                1024 /
+                1024
+              ).toPrecision(2)} MB)
             `,
             inline: true
           },

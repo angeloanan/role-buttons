@@ -19,7 +19,7 @@ export interface BotCommand {
 export type BotCommandAutocompleteHandler = (
   interaction: AutocompleteInteraction<CacheType>
 ) => void | Promise<void>
-export type BotCommandHandler = (Interaction: CommandInteraction<CacheType>) => void | Promise<void>
+export type BotCommandHandler = (Interaction: CommandInteraction<CacheType>) => any // Type any because don't care return type
 
 // ---
 
@@ -27,6 +27,6 @@ export interface BtnInteraction {
   default: ButtonInteractionHandler
 }
 
-export type ButtonInteractionHandler = (interaction: ButtonInteraction) => void | Promise<void>
+export type ButtonInteractionHandler = (interaction: ButtonInteraction) => any // Type any because don't care return type
 
 // ---

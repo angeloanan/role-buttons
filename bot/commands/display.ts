@@ -1,6 +1,5 @@
 import { influx, prisma } from 'db'
-import { ActionRow, ButtonComponent, ButtonStyle, Util } from 'discord.js'
-import type { APIMessageComponentEmoji } from 'discord-api-types'
+import { ActionRow, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js'
 
 import { isRoleManager } from '../guards/permission.js'
 import type { BotCommandAutocompleteHandler, BotCommandHandler } from '../internals'
@@ -24,7 +23,7 @@ export const autocomplete: BotCommandAutocompleteHandler = async interaction => 
 const handler: BotCommandHandler = async interaction => {
   await interaction.deferReply({ ephemeral: true })
   if (!isRoleManager(interaction))
-    return interaction.reply({ content: 'You do not have permission to use this command' })
+    return await interaction.reply({ content: 'You do not have permission to use this command' })
 
   try {
     const groupId = interaction.options.get('group_id', true).value as number
@@ -56,19 +55,19 @@ const handler: BotCommandHandler = async interaction => {
       }))
 
     // Create action Rows so that it fits in 5 buttons per row
-    const actionRows: ActionRow[] = []
+    const actionRows: ActionRowBuilder<ButtonBuilder>[] = []
     for (let i = 0; i < Math.ceil(roleGroup.buttons.length / 5); i++) {
-      actionRows.push(new ActionRow())
+      actionRows.push(new ActionRowBuilder())
     }
 
     roleGroup.buttons.forEach((b, index) => {
-      const button = new ButtonComponent()
+      const button = new ButtonBuilder()
         .setCustomId(`selfrole:${b.roleId}`)
         .setLabel(b.buttonLabel)
         .setStyle(ButtonStyle.Secondary)
 
       if (b.buttonEmoji != '') {
-        button.setEmoji(Util.resolvePartialEmoji(b.buttonEmoji) as APIMessageComponentEmoji)
+        button.setEmoji(b.buttonEmoji)
       }
 
       actionRows[Math.floor(index / 5)].addComponents(button)

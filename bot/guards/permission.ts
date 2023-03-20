@@ -1,6 +1,6 @@
-import { Interaction, PermissionsBitField } from 'discord.js'
+import { BaseInteraction, CommandInteraction, Interaction, PermissionsBitField } from 'discord.js'
 
-const isRoleManager = (interaction: Interaction) => {
+const isRoleManager = (interaction: BaseInteraction) => {
   if (!interaction.inGuild()) return false
 
   const p = interaction.member.permissions as PermissionsBitField

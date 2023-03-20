@@ -1,4 +1,4 @@
-import { ActionRow, ButtonComponent, ButtonStyle } from 'discord.js'
+import { ActionRow, ActionRowBuilder, ButtonBuilder, ButtonComponent, ButtonStyle } from 'discord.js'
 
 import { presetData } from '../constants/groupPresets.js'
 import { isRoleManager } from '../guards/permission.js'
@@ -35,15 +35,15 @@ const handler: BotCommandHandler = async interaction => {
   respondMsg += `\`\`\`\n`
   respondMsg += `Do you still want to continue? **This will create ${selectedPreset.roles.length} new roles**.`
 
-  const row = new ActionRow().addComponents(
-    new ButtonComponent()
+  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
       .setCustomId(`applypreset:${selectedPreset.id}:${groupName}`)
       .setEmoji({
         name: '✔'
       })
       .setLabel('Apply Preset')
       .setStyle(ButtonStyle.Success),
-    new ButtonComponent()
+    new ButtonBuilder()
       .setCustomId(`cancelpreset`)
       .setEmoji({
         name: '❎'
