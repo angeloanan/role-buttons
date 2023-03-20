@@ -1,10 +1,6 @@
 import { stripIndent } from 'common-tags'
 import { prisma } from 'db'
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle
-} from 'discord.js'
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js'
 
 import { isRoleManager } from '../guards/permission.js'
 import { BotCommandAutocompleteHandler, BotCommandHandler } from '../internals'

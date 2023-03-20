@@ -1,11 +1,12 @@
 import 'dotenv/config'
 
-import { prisma } from 'db'
-import type { ClientEvents } from 'discord.js'
-import { ActivityType, Client } from 'discord.js'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+import { prisma } from 'db'
+import type { ClientEvents } from 'discord.js'
+import { ActivityType, Client } from 'discord.js'
 
 import type { BotEventHandler } from './internals'
 

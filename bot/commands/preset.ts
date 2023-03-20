@@ -1,4 +1,10 @@
-import { ActionRow, ActionRowBuilder, ButtonBuilder, ButtonComponent, ButtonStyle } from 'discord.js'
+import {
+  ActionRow,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonComponent,
+  ButtonStyle
+} from 'discord.js'
 
 import { presetData } from '../constants/groupPresets.js'
 import { isRoleManager } from '../guards/permission.js'

@@ -1,5 +1,5 @@
 import { influx, prisma } from 'db'
-import { ActionRow, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js'
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js'
 
 import { isRoleManager } from '../guards/permission.js'
 import type { BotCommandAutocompleteHandler, BotCommandHandler } from '../internals'

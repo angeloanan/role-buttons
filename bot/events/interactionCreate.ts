@@ -1,6 +1,7 @@
-import type { CacheType, Interaction } from 'discord.js'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+import type { CacheType, Interaction } from 'discord.js'
 
 import type { BotCommand, BtnInteraction } from '../internals'
 
