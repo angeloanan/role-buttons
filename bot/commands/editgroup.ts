@@ -1,5 +1,6 @@
-import { stripIndent } from 'common-tags'
+import { ModalActionRowComponentBuilder, ModalBuilder } from '@discordjs/builders'
 import { prisma } from 'db'
+import { ActionRowBuilder, TextInputBuilder, TextInputStyle } from 'discord.js'
 
 import { isRoleManager } from '../guards/permission.js'
 import { BotCommandAutocompleteHandler, BotCommandHandler } from '../internals'
@@ -24,13 +25,10 @@ const handler: BotCommandHandler = async interaction => {
   if (!interaction.channel) return
   if (!isRoleManager(interaction))
     return interaction.reply({ content: 'You do not have permission to use this command' })
-  await interaction.deferReply()
 
   try {
     // TODO: Migrate to modals once released to djs
     const groupId = interaction.options.get('group_id', true).value as number
-    const groupName = interaction.options.get('group_name')?.value as string | undefined
-    const groupLabel = interaction.options.get('group_label')?.value as string | undefined
 
     const roleGroup = await prisma.roleGroups.findUnique({
       where: {
@@ -48,29 +46,53 @@ const handler: BotCommandHandler = async interaction => {
         content: `Group \`${groupId}\` not found!`
       }))
 
-    await interaction.editReply({
-      content: stripIndent`
-        > You are editing group \`${roleGroup.groupName}\`...
-        Send a message that will be the role group's display message! (Formatting supported)
-      `
-    })
+    const modal = new ModalBuilder()
+      .setCustomId(`editGroup:${groupId}`)
+      .setTitle(`Editing Role Group "${roleGroup.groupName}"`)
+      .addComponents(
+        new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
+          new TextInputBuilder()
+            .setCustomId('groupName')
+            .setLabel('Group name')
+            .setPlaceholder('Your role group name...')
+            .setValue(roleGroup.groupName)
+            .setStyle(TextInputStyle.Paragraph)
+            .setRequired(true)
+        ),
+        new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
+          new TextInputBuilder()
+            .setCustomId('groupLabel')
+            .setLabel('Group Label')
+            .setPlaceholder('Get your role here!')
+            .setValue(roleGroup.groupLabel)
+            .setStyle(TextInputStyle.Paragraph)
+            .setRequired(true)
+        )
+      )
 
-    const contentMessage = await interaction.channel.awaitMessages({
-      filter: m => {
-        console.debug(m.author.id)
-        return m.author.id === interaction.user.id
-      },
-      time: 120_000,
-      max: 1,
-      errors: ['time']
-    })
+    await interaction.showModal(modal)
+    const submittedModal = await interaction
+      .awaitModalSubmit({
+        filter: i => i.customId === `editGroup:${groupId}`,
+        time: 5 * 60 * 1000 // 5 Minutes
+      })
+      .catch(async () => {
+        await interaction.reply('Timeout - You took too long to edit the modal!')
+        return
+      })
+
+    // Landed on .catch before
+    if (submittedModal == null) return
+    const groupName = submittedModal.fields.getTextInputValue('groupName')
+    const groupLabel = submittedModal.fields.getTextInputValue('groupLabel')
 
     await prisma.roleGroups.update({
       where: {
         groupId
       },
       data: {
-        groupLabel: contentMessage.first()?.content
+        groupName: groupName,
+        groupLabel: groupLabel
       }
     })
 
