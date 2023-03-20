@@ -48,24 +48,28 @@ const handler: BotCommandHandler = async interaction => {
 
     const modal = new ModalBuilder()
       .setCustomId(`editGroup:${groupId}`)
-      .setTitle(`Editing Role Group "${roleGroup.groupName}"`)
+      .setTitle(`Edit Role Group`)
       .addComponents(
         new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
           new TextInputBuilder()
             .setCustomId('groupName')
             .setLabel('Group name')
-            .setPlaceholder('Your role group name...')
+            .setPlaceholder('My Fancy Roles')
             .setValue(roleGroup.groupName)
             .setStyle(TextInputStyle.Paragraph)
+            .setMinLength(2)
+            .setMaxLength(72)
             .setRequired(true)
         ),
         new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
           new TextInputBuilder()
             .setCustomId('groupLabel')
             .setLabel('Group Label')
-            .setPlaceholder('Get your role here!')
+            .setPlaceholder('Hear ye! hear ye! Get yar role here!')
             .setValue(roleGroup.groupLabel)
             .setStyle(TextInputStyle.Paragraph)
+            .setMinLength(2)
+            .setMaxLength(2_000)
             .setRequired(true)
         )
       )
