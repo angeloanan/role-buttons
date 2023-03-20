@@ -42,7 +42,7 @@ const handler: BotCommandHandler = async interaction => {
     })
 
     if (roleGroup == null || roleGroup?.guildId !== interaction.guildId)
-      return void (await interaction.editReply({
+      return void (await interaction.reply({
         content: `Group \`${groupId}\` not found!`
       }))
 
@@ -96,9 +96,11 @@ const handler: BotCommandHandler = async interaction => {
       }
     })
 
-    await interaction.channel.send({ content: `Edited role group \`${roleGroup.groupName}\`!` })
+    await submittedModal.reply({
+      content: `Role group \`${roleGroup.groupName}\` has been edited!`
+    })
   } catch (e) {
-    await interaction.editReply({
+    await interaction.reply({
       content: `Something went wrong:\`\`\`${e as string}\`\`\``
     })
   }
